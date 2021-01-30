@@ -1,10 +1,13 @@
 import asyncio
+import os
 import json
 import logging
 import pyppeteer
 from pyppeteer import launch
 
 logger = logging.getLogger(__name__)
+
+HOME = os.environ['HOME']
 
 async def handle(event):
     if 'action' in event and 'pull_request' in event:
@@ -27,7 +30,7 @@ async def _process_pr_open(org, org_id, repo, repo_id, pr, html_link):
     browser = await launch()
     page = await browser.newPage()
     await page.goto(html_link)
-    await page.screenshot({'path': f'observations/{org_id}-{org}_{repo_id}_{repo}_{pr}-OPENED.png', 'fullPage': 'true'})
+    await page.screenshot({'path': f'{HOME}/observations/{org_id}-{org}_{repo_id}_{repo}_{pr}-OPENED.png', 'fullPage': 'true'})
     await browser.close()
     
     
