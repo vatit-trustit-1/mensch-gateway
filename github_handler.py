@@ -29,10 +29,10 @@ async def handle(event):
     return None
 
 async def _process_pr_opened(org, org_id, repo, repo_id, pr, html_link):
-    _generate_pr_observation(org, org_id, repo, repo_id, pr, html_link, 'OPENED')
+    await _generate_pr_observation(org, org_id, repo, repo_id, pr, html_link, 'OPENED')
 
 async def _process_pr_closed(org, org_id, repo, repo_id, pr, html_link):
-    _generate_pr_observation(org, org_id, repo, repo_id, pr, html_link, 'CLOSED')
+    await _generate_pr_observation(org, org_id, repo, repo_id, pr, html_link, 'CLOSED')
 
 async def _generate_pr_observation(org, org_id, repo, repo_id, pr, html_link, pr_status):
     browser = await launch()
@@ -42,6 +42,6 @@ async def _generate_pr_observation(org, org_id, repo, repo_id, pr, html_link, pr
     await browser.close()
 
 
-# with open('/home/max/projects/mensch-gateway/ref_spec/github/pr_opened.json') as f:
-#   content = json.load(f)
-#   asyncio.get_event_loop().run_until_complete(handle(content))
+with open('/home/max/projects/mensch-gateway/ref_spec/github/pr_opened.json') as f:
+  content = json.load(f)
+  asyncio.get_event_loop().run_until_complete(handle(content))
