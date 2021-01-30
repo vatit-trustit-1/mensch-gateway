@@ -1,0 +1,37 @@
+import asyncio
+import json
+import logging
+import pyppeteer
+from pyppeteer import launch
+
+logger = logging.getLogger(__name__)
+
+async def handle(event):
+    if 'action' in event and 'pull_request' in event:
+        action = event['action']
+        org = event['pull_request']['base']['repo']['owner']['login']
+        org_id = event['pull_request']['base']['repo']['owner']['id']
+        repo = event['pull_request']['base']['repo']["name"]
+        repo_id = event['pull_request']['base']['repo']["id"]
+        pr = event['number']
+        observation_link = event['pull_request']["_links"]["html"]["href"]
+
+        logger.info(f"Processing event {action=} {org=} {org_id=} {repo=} {repo_id=} {pr=}")
+
+        if action == 'opened':
+            await _process_pr_open(org, org_id, repo, repo_id, pr, observation_link)
+
+    return None
+
+async def _process_pr_open(org, org_id, repo, repo_id, pr, html_link):
+    browser = await launch()
+    page = await browser.newPage()
+    await page.goto(html_link)
+    await page.screenshot({'path': f'observations/{org_id}-{org}_{repo_id}_{repo}_{pr}-OPENED.png', 'fullPage': 'true'})
+    await browser.close()
+    
+    
+
+with open('/home/max/projects/mensch-gateway/ref_spec/github/pr_opened.json') as f:
+  content = json.load(f)
+  asyncio.get_event_loop().run_until_complete(handle(content))
