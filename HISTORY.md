@@ -15,5 +15,6 @@ git clone git@github.com:vatit-trustit-1/mensch-gateway.git
 sudo apt install python-is-python3
 sudo apt install python3-venv
 cd ~/mensch-gateway/
+python3 -m venv venv
 . venv/bin/activate
 pip install Flask
