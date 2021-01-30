@@ -30,3 +30,4 @@ http://ec2-54-87-240-215.compute-1.amazonaws.com:5000
 > We're live.
 
 # Now let's go create the github app...
+App public page https://github.com/apps/mensch-trustit-2021
