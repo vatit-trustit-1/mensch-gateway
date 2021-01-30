@@ -38,7 +38,7 @@ async def _generate_pr_observation(org, org_id, repo, repo_id, pr, html_link, pr
     browser = await launch()
     page = await browser.newPage()
     await page.goto(html_link)
-    await page.screenshot({'path': f'{HOME}/observations/{org_id}-{org}_{repo_id}_{repo}_{pr}-{pr_status}.png', 'fullPage': 'true'})
+    await page.screenshot({'path': f'{HOME}/observations/org={org_id}-{org}_repo={repo_id}_{repo}_pr={pr}-status={pr_status}.png', 'fullPage': 'true'})
     await browser.close()
 
 
