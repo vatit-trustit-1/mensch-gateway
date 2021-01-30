@@ -9,5 +9,5 @@ ssh-keygen
 git clone git@github.com:vatit-trustit-1/mensch-gateway.git
 
 # Setup poor man's CD flow
-./gitomatic/gitomatic -author "Max" -email "max@trustit.com" -interval "5s" mensch-gateway
+./gitomatic/gitomatic -push=false -author "Max" -email "max@trustit.com" -interval "20s" mensch-gateway
 
