@@ -11,3 +11,9 @@ git clone git@github.com:vatit-trustit-1/mensch-gateway.git
 # Setup poor man's CD flow
 ./gitomatic/gitomatic -push=false -author "Max" -email "max@trustit.com" -interval "20s" mensch-gateway
 
+# Let's get flask up
+sudo apt install python-is-python3
+sudo apt install python3-venv
+cd ~/mensch-gateway/
+. venv/bin/activate
+pip install Flask
