@@ -52,6 +52,6 @@ def takescreenshot(html_link, path):
     
 
 
-with open('/home/max/projects/mensch-gateway/ref_spec/github/pr_closed.json') as f:
-  content = json.load(f)
-  handle(content)
+# with open('/home/max/projects/mensch-gateway/ref_spec/github/pr_closed.json') as f:
+#   content = json.load(f)
+#   handle(content)
