@@ -3,10 +3,11 @@ import json
 import logging
 import pyppeteer
 from pyppeteer import launch
+from multiprocessing import Process
 
 logger = logging.getLogger(__name__)
 
-async def handle(event):
+def handle(event):
     if 'action' in event and 'pull_request' in event:
         action = event['action']
         org = event['pull_request']['base']['repo']['owner']['login']
@@ -19,26 +20,38 @@ async def handle(event):
         logger.info(f"Processing event {action=} {org=} {org_id=} {repo=} {repo_id=} {pr=}")
 
         if action == 'opened':
-            await _process_pr_opened(org, org_id, repo, repo_id, pr, observation_link)
+            process_pr_opened(org, org_id, repo, repo_id, pr, observation_link)
         elif action == 'closed':
-            await _process_pr_closed(org, org_id, repo, repo_id, pr, observation_link)
+            process_pr_closed(org, org_id, repo, repo_id, pr, observation_link)
 
-    return None
+    return ''
 
-async def _process_pr_opened(org, org_id, repo, repo_id, pr, html_link):
-    await _generate_pr_observation(org, org_id, repo, repo_id, pr, html_link, 'OPENED')
+def process_pr_opened(org, org_id, repo, repo_id, pr, html_link):
+    generate_pr_observation(org, org_id, repo, repo_id, pr, html_link, 'OPENED')
 
-async def _process_pr_closed(org, org_id, repo, repo_id, pr, html_link):
-    await _generate_pr_observation(org, org_id, repo, repo_id, pr, html_link, 'CLOSED')
+def process_pr_closed(org, org_id, repo, repo_id, pr, html_link):
+    generate_pr_observation(org, org_id, repo, repo_id, pr, html_link, 'CLOSED')
 
-async def _generate_pr_observation(org, org_id, repo, repo_id, pr, html_link, pr_status):
-    browser = await launch()
-    page = await browser.newPage()
-    await page.goto(html_link)
-    await page.screenshot({'path': f'/opt/observations/org={org_id}-{org}_repo={repo_id}_{repo}_pr={pr}-status={pr_status}.png', 'fullPage': 'true'})
-    await browser.close()
+def generate_pr_observation(org, org_id, repo, repo_id, pr, html_link, pr_status):    
+    path = f'/opt/observations/org={org_id}-{org}_repo={repo_id}_{repo}_pr={pr}-status={pr_status}.png'
+
+    # Work around 3.8 regression https://bugs.python.org/issue38904 occuring on pyppeter signal to chrome.
+    p = Process(target=takescreenshot, args=(html_link, path))
+    p.start()
+    p.join()    
+
+def takescreenshot(html_link, path):
+    async def page_to_png(url, image):
+        browser = await launch()
+        page = await browser.newPage()
+        await page.goto(url)
+        await page.screenshot({'path': image, 'fullPage': 'true'})
+        await browser.close()
+
+    asyncio.run(page_to_png(html_link, path))
+    
 
 
-# with open('/home/max/projects/mensch-gateway/ref_spec/github/pr_opened.json') as f:
+# with open('/home/max/projects/mensch-gateway/ref_spec/github/pr_closed.json') as f:
 #   content = json.load(f)
-#   asyncio.get_event_loop().run_until_complete(handle(content))
+#   handle(content)
