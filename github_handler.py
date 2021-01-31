@@ -1,13 +1,10 @@
 import asyncio
-import os
 import json
 import logging
 import pyppeteer
 from pyppeteer import launch
 
 logger = logging.getLogger(__name__)
-
-HOME = os.environ['HOME']
 
 async def handle(event):
     if 'action' in event and 'pull_request' in event:
@@ -38,10 +35,10 @@ async def _generate_pr_observation(org, org_id, repo, repo_id, pr, html_link, pr
     browser = await launch()
     page = await browser.newPage()
     await page.goto(html_link)
-    await page.screenshot({'path': f'{HOME}/observations/org={org_id}-{org}_repo={repo_id}_{repo}_pr={pr}-status={pr_status}.png', 'fullPage': 'true'})
+    await page.screenshot({'path': f'/opt/observations/org={org_id}-{org}_repo={repo_id}_{repo}_pr={pr}-status={pr_status}.png', 'fullPage': 'true'})
     await browser.close()
 
 
-with open('/home/max/projects/mensch-gateway/ref_spec/github/pr_opened.json') as f:
-  content = json.load(f)
-  asyncio.get_event_loop().run_until_complete(handle(content))
+# with open('/home/max/projects/mensch-gateway/ref_spec/github/pr_opened.json') as f:
+#   content = json.load(f)
+#   asyncio.get_event_loop().run_until_complete(handle(content))
