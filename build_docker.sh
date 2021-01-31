@@ -1,1 +1,1 @@
-sudo docker build . -t mensch:latest
+docker build . -t mensch:latest
