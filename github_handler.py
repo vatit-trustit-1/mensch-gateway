@@ -42,7 +42,7 @@ def generate_pr_observation(org, org_id, repo, repo_id, pr, html_link, pr_status
 
 def takescreenshot(html_link, path):
     async def page_to_png(url, image):
-        browser = await launch()
+        browser = await launch(options={'args': ['--no-sandbox']})
         page = await browser.newPage()
         await page.goto(url)
         await page.screenshot({'path': image, 'fullPage': 'true'})
