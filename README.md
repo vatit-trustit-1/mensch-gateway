@@ -6,6 +6,9 @@ We're live.
 ## How to run
 ```
 ./build_docker.sh
+./start_in_docker
+```
+
 
 ## How to develop
 ```
@@ -14,4 +17,4 @@ pipenv shell
 ```
 
 ### Drafts 
-Integ/pr3
+Integ/pr2
