@@ -31,3 +31,12 @@ http://ec2-54-87-240-215.compute-1.amazonaws.com:5000
 
 # Now let's go create the github app...
 App public page https://github.com/apps/mensch-trustit-2021
+
+# Docker time
+
+sudo apt install apt-transport-https ca-certificates curl software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+sudo apt update
+sudo apt install docker-ce
+sudo usermod -aG docker ${USER}

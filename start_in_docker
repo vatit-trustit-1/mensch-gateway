@@ -1,0 +1,5 @@
+sudo docker service create \
+    --name mensch \
+    --publish published=5000,target=5000 \
+    --mount type=bind,source="${HOME}/observations",destination=/opt/observations
+    bugy/script-server:latest
