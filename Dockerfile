@@ -10,4 +10,4 @@ COPY . .
 ENV FLASK_APP=main.py
 ENV FLASK_ENV=development
 
-CMD pipenv run flask run --host=0.0.0.0
+CMD pipenv run flask run --host=0.0.0.0 --no-reload
