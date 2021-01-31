@@ -1,5 +1,10 @@
 #!/bin/bash
 
+mkdir -p "${HOME}/observations"
+
+docker swarm init || true # dirty CD mans hacks 1
+docker service rm mensch || true # dirty CD mans hacks 2
+
 docker service create  --name mensch \
     --publish published=5000,target=5000 \
     --mount type=bind,source="${HOME}/observations",destination=/opt/observations \
