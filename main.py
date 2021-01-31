@@ -14,7 +14,6 @@ def hello_world():
 @app.route('/eventstream', methods=['GET', 'POST'])
 def eventstream():
     content = request.get_json()    
-    print(json.dumps(content, indent=4, sort_keys=True))
-    asyncio.get_event_loop().run_until_complete(handle(content))
+    asyncio.run(handle(content))
     
     return "OK"
